@@ -5,12 +5,14 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { Provider } from "react-redux";
+import { QueryClientProvider, QueryClient } from 'react-query';
 import store from "./redux/store";
 
 import HomeScreen from "./screens/Home";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
+const client = new QueryClient();
 
 function MyTabs() {
   return (
@@ -57,12 +59,14 @@ const RootNavigation = () => {
 export default function App() {
   return (
     <Provider store={store}>
-      <SafeAreaProvider>
-        <SafeAreaView style={{ flex: 1 }}>
-          <StatusBar style="auto" />
-          <RootNavigation />
-        </SafeAreaView>
-      </SafeAreaProvider>
+      <QueryClientProvider client={client}>
+        <SafeAreaProvider>
+          <SafeAreaView style={{ flex: 1 }}>
+            <StatusBar style="auto" />
+            <RootNavigation />
+          </SafeAreaView>
+        </SafeAreaProvider>
+      </QueryClientProvider>
     </Provider>
   );
 }
